@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": false,
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "mocha": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "prettier"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "function-paren-newline": [
+            "error",
+            "never"
+        ]
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2017
+    }
+}

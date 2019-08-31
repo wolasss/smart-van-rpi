@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "RPI project for a smarter van",
     "main": "index.js",
+    "repository": "https://github.com/wolasss/smart-van-rpi",
     "scripts": {
         "check-types": "tsc --noEmit",
         "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
@@ -22,12 +23,6 @@
     "license": "ISC",
     "dependencies": {
         "moment": "^2.24.0"
-    },
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-            "pre-commit": "npm run precommit && npm test"
-        }
     },
     "lint-staged": {
         "**/*.js": [
