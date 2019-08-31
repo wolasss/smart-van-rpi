@@ -1,0 +1,110 @@
+{
+    "name": "smart-van-rpi",
+    "version": "0.0.1",
+    "description": "RPI project for a smarter van",
+    "main": "index.js",
+    "scripts": {
+        "check-types": "tsc --noEmit",
+        "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
+        "dev": "nodemon --exec babel-node --extensions '.js,.ts' --inspect src/index.ts",
+        "precommit": "lint-staged",
+        "build": "webpack",
+        "post-deploy-without-install-deps": "npm run build && sudo pm2 startOrRestart ecosystem.config.js --update-env --log-date-format 'YYYY-MM-DD HH:mm' --env production && sudo pm2 save",
+        "post-deploy": "npm set progress=false && NODE_ENV=development npm install --no-audit && npm run build && sudo pm2 startOrRestart ecosystem.config.js --update-env --log-date-format 'YYYY-MM-DD HH:mm' --env production && sudo pm2 save",
+        "release": "semantic-release",
+        "format": "prettier-eslint --write \"**/*.js\""
+    },
+    "engines": {
+        "node": ">=10.0.0",
+        "npm": ">=6.0.0"
+    },
+    "author": "Adam Wolski",
+    "license": "ISC",
+    "dependencies": {
+        "moment": "^2.24.0"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "pre-commit": "npm run precommit && npm test"
+        }
+    },
+    "lint-staged": {
+        "**/*.js": [
+            "prettier-eslint --write",
+            "git add"
+        ]
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.4.4",
+        "@babel/core": "^7.4.5",
+        "@babel/node": "^7.4.5",
+        "@babel/polyfill": "^7.0.0",
+        "@babel/plugin-proposal-class-properties": "^7.4.4",
+        "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/preset-typescript": "^7.3.3",
+        "@babel/register": "^7.4.4",
+        "@commitlint/cli": "^8.0.0",
+        "@commitlint/config-conventional": "^8.0.0",
+        "@semantic-release/changelog": "^3.0.2",
+        "@semantic-release/commit-analyzer": "^6.3.0",
+        "@semantic-release/git": "^7.0.8",
+        "@semantic-release/npm": "^5.1.7",
+        "@semantic-release/release-notes-generator": "^7.3.0",
+        "@types/node": "^12.7.1",
+        "babel-plugin-module-resolver": "^3.2.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "eslint-config-prettier": "^6.0.0",
+        "husky": "^3.0.2",
+        "lint-staged": "^9.2.1",
+        "pm2": "^3.5.1",
+        "prettier-eslint": "^9.0.0",
+        "prettier-eslint-cli": "^5.0.0",
+        "semantic-release": "^15.13.19",
+        "semantic-release-cli": "^5.1.2",
+        "source-map-support": "^0.5.13",
+        "ts-loader": "^6.0.2",
+        "typescript": "^3.5.1",
+        "typescript-bundle": "^1.0.14",
+        "webpack": "^4.39.1",
+        "webpack-cli": "^3.3.2",
+        "webpack-node-externals": "^1.7.2"
+    },
+    "release": {
+        "branch": "master",
+        "ci": false,
+        "plugins": [
+            [
+                "@semantic-release/commit-analyzer",
+                {
+                    "preset": "angular",
+                    "releaseRules": [
+                        {
+                            "type": "docs",
+                            "release": "patch"
+                        },
+                        {
+                            "type": "chore",
+                            "release": "patch"
+                        },
+                        {
+                            "type": "refactor",
+                            "release": "patch"
+                        }
+                    ]
+                }
+            ],
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            [
+                "@semantic-release/npm",
+                {
+                    "npmPublish": false
+                }
+            ],
+            "@semantic-release/git"
+        ]
+    }
+}
